@@ -51,8 +51,9 @@ class TransactionsList extends Component {
   }
 
   calculateRunningBalance = () => {
+    const {transactions} = this.state
     let balance = 0
-    const transactionsWithBalance = this.state.transactions.map(transaction => {
+    const transactionsWithBalance = transactions.map(transaction => {
       if (transaction.type === 'credit') {
         balance += transaction.amount
       } else if (transaction.type === 'debit') {
@@ -96,7 +97,7 @@ class TransactionsList extends Component {
           </thead>
           <tbody>
             {transactions.map((transaction, index) => (
-              <tr key={index}>
+              <tr key={transaction.date + transaction.amount}>
                 <td>{transaction.date}</td>
                 <td>{transaction.description}</td>
                 <td>
@@ -113,9 +114,9 @@ class TransactionsList extends Component {
         {showAddTransaction && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <span className="close-button" onClick={this.handleCancel}>
+              <button className="close-button" onClick={this.handleCancel}>
                 &times;
-              </span>
+              </button>
               <AddTransaction
                 onTransactionAdded={this.handleTransactionAdded}
                 onCancel={this.handleCancel}
