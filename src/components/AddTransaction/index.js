@@ -15,7 +15,7 @@ class AddTransaction extends Component {
     const {date, transactionType, amount, description} = this.state
 
     // Validation
-    if (!date || !amount || isNaN(amount) || amount <= 0) {
+    if (!date || !amount || Number.isNaN(Number(amount)) || amount <= 0) {
       this.setState({error: 'Please enter a valid date and amount'})
       return
     }
@@ -29,7 +29,8 @@ class AddTransaction extends Component {
     }
 
     // Pass new transaction to parent component
-    this.props.onTransactionAdded(newTransaction)
+    const {onTransactionAdded} = this.props
+    onTransactionAdded(newTransaction)
 
     // Clear form
     this.resetForm()
@@ -41,8 +42,9 @@ class AddTransaction extends Component {
   }
 
   handleCancel = () => {
+    const {onCancel} = this.props
     this.resetForm()
-    this.props.onCancel()
+    onCancel()
   }
 
   resetForm = () => {
